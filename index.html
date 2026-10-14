@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8f5">
+  <meta name="description" content="Justin 的个人博客，记录技术、项目与日常。">
+  <title>Justin 的小站 · 记录与分享</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --page: #f7f8f5;
+      --surface: #fff;
+      --surface-soft: #f0f2ed;
+      --ink: #202723;
+      --muted: #758078;
+      --line: #e4e9e2;
+      --accent: #287b66;
+      --accent-soft: #e5f1eb;
+      --shadow: 0 14px 40px rgba(37, 55, 43, .07);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --page: #151b18;
+      --surface: #1e2722;
+      --surface-soft: #26312b;
+      --ink: #edf3ee;
+      --muted: #a4b0a8;
+      --line: #334039;
+      --accent: #82c7a8;
+      --accent-soft: #263b31;
+      --shadow: 0 14px 40px rgba(0, 0, 0, .16);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font: 15px/1.75 -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      transition: background .2s ease, color .2s ease;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    .wrap { width: min(1080px, calc(100% - 40px)); margin-inline: auto; }
+    .topbar {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .brand { display: inline-flex; align-items: center; gap: 11px; font-weight: 750; letter-spacing: -.03em; }
+    .brand-mark {
+      display: grid; width: 36px; height: 36px; place-items: center;
+      border-radius: 12px; background: var(--accent); color: #fff; font-size: 17px;
+    }
+    .nav { display: flex; align-items: center; gap: 27px; color: var(--muted); font-size: 14px; }
+    .nav a:hover, .nav a:focus-visible { color: var(--accent); }
+    .icon-button {
+      display: grid; width: 38px; height: 38px; place-items: center;
+      border: 1px solid var(--line); border-radius: 50%; background: var(--surface); cursor: pointer;
+    }
+    .hero {
+      position: relative; overflow: hidden; min-height: 280px; margin: 24px 0 30px;
+      padding: 48px 52px; border: 1px solid var(--line); border-radius: 22px;
+      background: var(--surface); box-shadow: var(--shadow);
+    }
+    .hero::after {
+      content: ""; position: absolute; width: 310px; height: 310px; right: 4%; top: -95px;
+      border: 1px solid color-mix(in srgb, var(--accent) 27%, transparent); border-radius: 50%;
+      box-shadow: 0 0 0 28px color-mix(in srgb, var(--accent) 5%, transparent), 0 0 0 58px color-mix(in srgb, var(--accent) 4%, transparent);
+      pointer-events: none;
+    }
+    .eyebrow { color: var(--accent); font-size: 11px; font-weight: 800; letter-spacing: .18em; }
+    h1 { max-width: 620px; margin: 12px 0 10px; font-size: clamp(31px, 5vw, 48px); line-height: 1.25; letter-spacing: -.055em; }
+    .hero p { max-width: 510px; margin: 0; color: var(--muted); font-size: 16px; }
+    .hero-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; color: var(--accent); font-weight: 700; }
+    .layout { display: grid; grid-template-columns: minmax(0, 1fr) 284px; gap: 26px; align-items: start; }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin: 0 0 16px; }
+    .section-heading h2 { margin: 0; font-size: 21px; letter-spacing: -.035em; }
+    .section-heading p { margin: 3px 0 0; color: var(--muted); font-size: 13px; }
+    .search {
+      width: min(220px, 45%); height: 40px; padding: 0 13px;
+      border: 1px solid var(--line); border-radius: 11px; outline: 0;
+      background: var(--surface); color: var(--ink);
+    }
+    .search:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .post-list { display: grid; gap: 14px; }
+    .post {
+      padding: 22px 24px; border: 1px solid var(--line); border-radius: 16px;
+      background: var(--surface); transition: transform .18s ease, border-color .18s ease;
+    }
+    .post:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--accent) 42%, var(--line)); }
+    .post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; color: var(--muted); font-size: 12px; }
+    .tag { padding: 2px 9px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 650; }
+    .post h3 { margin: 10px 0 6px; font-size: 18px; letter-spacing: -.025em; }
+    .post p { margin: 0; color: var(--muted); font-size: 14px; }
+    .post-more { display: inline-block; margin-top: 13px; color: var(--accent); font-size: 13px; font-weight: 700; }
+    .empty { display: none; padding: 28px; text-align: center; color: var(--muted); }
+    .sidebar { display: grid; gap: 16px; }
+    .side-card { padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+    .side-title { margin: 0 0 15px; font-size: 14px; font-weight: 750; }
+    .profile { text-align: center; }
+    .avatar {
+      display: grid; width: 66px; height: 66px; margin: 2px auto 11px; place-items: center;
+      border-radius: 22px; background: var(--accent-soft); color: var(--accent); font-size: 27px; font-weight: 800;
+    }
+    .profile h2 { margin: 0; font-size: 17px; }
+    .profile p { margin: 5px 0 14px; color: var(--muted); font-size: 13px; }
+    .stats { display: flex; justify-content: center; gap: 25px; padding-top: 13px; border-top: 1px solid var(--line); }
+    .stats strong, .stats span { display: block; }
+    .stats strong { font-size: 16px; }
+    .stats span { color: var(--muted); font-size: 11px; }
+    .category-list, .recent-list { display: grid; gap: 8px; }
+    .category-link { display: flex; justify-content: space-between; color: var(--muted); font-size: 13px; }
+    .category-link:hover, .recent-list a:hover { color: var(--accent); }
+    .category-link span:last-child { color: var(--muted); opacity: .7; }
+    .recent-list a { font-size: 13px; line-height: 1.5; }
+    .recent-list time { display: block; margin-top: 2px; color: var(--muted); font-size: 11px; }
+    .about-copy { margin: 0; color: var(--muted); font-size: 13px; }
+    footer { margin: 38px 0 22px; padding: 18px 0; border-top: 1px solid var(--line); color: var(--muted); text-align: center; font-size: 12px; }
+    .hidden { display: none !important; }
+    @media (max-width: 760px) {
+      .wrap { width: min(100% - 28px, 600px); }
+      .topbar { height: 64px; }
+      .nav { gap: 16px; font-size: 13px; }
+      .nav a:nth-child(2), .nav a:nth-child(3) { display: none; }
+      .hero { min-height: 255px; margin-top: 16px; padding: 36px 26px; }
+      .hero::after { right: -190px; opacity: .75; }
+      .layout { grid-template-columns: 1fr; gap: 20px; }
+      .sidebar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .profile { grid-row: span 2; }
+    }
+    @media (max-width: 480px) {
+      .brand-name { font-size: 14px; }
+      .topbar { gap: 10px; }
+      .nav { gap: 13px; }
+      .hero { padding: 31px 22px; }
+      .section-heading { align-items: start; flex-direction: column; }
+      .search { width: 100%; }
+      .post { padding: 18px; }
+      .sidebar { grid-template-columns: 1fr; }
+      .profile { grid-row: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap topbar">
+    <a class="brand" href="#top" aria-label="Justin 的小站首页">
+      <span class="brand-mark" aria-hidden="true">J</span>
+      <span class="brand-name">Justin 的小站</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a href="#top">首页</a>
+      <a href="#posts">文章</a>
+      <a href="#categories">分类</a>
+      <a href="#about">关于</a>
+      <button class="icon-button" id="theme-toggle" type="button" aria-label="切换深色模式" title="切换深色模式">◐</button>
+    </nav>
+  </header>
+
+  <main id="top" class="wrap">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="eyebrow">A SMALL PLACE ON THE INTERNET</div>
+      <h1 id="hero-title">把学到的，慢慢写下来。</h1>
+      <p>这里是 Justin 的个人角落，记录技术探索、正在做的项目，还有生活里值得记住的小事。</p>
+      <a class="hero-link" href="#posts">从最近的文章开始 <span aria-hidden="true">↘</span></a>
+    </section>
+
+    <div class="layout">
+      <section id="posts" aria-labelledby="posts-title">
+        <div class="section-heading">
+          <div>
+            <h2 id="posts-title">最近的记录</h2>
+            <p>一些还在慢慢生长的想法</p>
+          </div>
+          <input class="search" id="search" type="search" placeholder="搜索文章…" aria-label="搜索文章">
+        </div>
+        <div class="post-list" id="post-list">
+          <!-- 示例文章：发布前可替换为真实文章内容和链接。 -->
+          <article class="post" data-title="你好，世界 博客开张 个人随笔" data-category="随笔">
+            <div class="post-meta"><time datetime="2026-10-15">2026年10月15日</time><span class="tag">随笔</span><span>示例文章</span></div>
+            <h3><a href="#about">你好，世界：博客开始搭建了</a></h3>
+            <p>先把这个小站的门打开。以后会在这里整理学习笔记、项目过程和一些日常想法。</p>
+            <a class="post-more" href="#about">继续了解 <span aria-hidden="true">→</span></a>
+          </article>
+          <article class="post" data-title="GitHub Pages 静态网站 技术笔记" data-category="技术">
+            <div class="post-meta"><time datetime="2026-10-12">2026年10月12日</time><span class="tag">技术</span><span>示例文章</span></div>
+            <h3><a href="#categories">用 GitHub Pages 放一个静态网站</a></h3>
+            <p>从一个 index.html 出发，把想法变成可以分享的网页。这里可以放实际文章摘要和阅读入口。</p>
+            <a class="post-more" href="#categories">阅读笔记 <span aria-hidden="true">→</span></a>
+          </article>
+          <article class="post" data-title="小项目 项目记录 学习" data-category="项目">
+            <div class="post-meta"><time datetime="2026-10-08">2026年10月8日</time><span class="tag">项目</span><span>示例文章</span></div>
+            <h3><a href="#about">把一个小点子做成可用的东西</a></h3>
+            <p>记录从问题、尝试到完成的过程，也留下一些下次可以复用的经验。</p>
+            <a class="post-more" href="#about">查看项目记录 <span aria-hidden="true">→</span></a>
+          </article>
+        </div>
+        <p class="empty" id="empty-state">没有找到匹配的文章，试试其他关键词。</p>
+      </section>
+
+      <aside class="sidebar" aria-label="博客侧栏">
+        <section class="side-card profile" id="about">
+          <div class="avatar" aria-hidden="true">J.</div>
+          <h2>你好，我是 Justin</h2>
+          <p>保持好奇，持续记录。</p>
+          <div class="stats"><div><strong>03</strong><span>示例文章</span></div><div><strong>03</strong><span>分类</span></div></div>
+        </section>
+        <section class="side-card" id="categories">
+          <h2 class="side-title">文章分类</h2>
+          <div class="category-list">
+            <a class="category-link" href="#posts" data-filter="技术"><span>技术笔记</span><span>01</span></a>
+            <a class="category-link" href="#posts" data-filter="项目"><span>项目记录</span><span>01</span></a>
+            <a class="category-link" href="#posts" data-filter="随笔"><span>生活随笔</span><span>01</span></a>
+          </div>
+        </section>
+        <section class="side-card">
+          <h2 class="side-title">最近更新</h2>
+          <div class="recent-list">
+            <a href="#posts">你好，世界：博客开始搭建了<time datetime="2026-10-15">2026.10.15</time></a>
+            <a href="#posts">用 GitHub Pages 放一个静态网站<time datetime="2026-10-12">2026.10.12</time></a>
+            <a href="#posts">把一个小点子做成可用的东西<time datetime="2026-10-08">2026.10.08</time></a>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="wrap">© 2026 Justin · 用好奇心搭建，用文字记录。</footer>
+  <script>
+    const root = document.documentElement;
+    const themeButton = document.getElementById('theme-toggle');
+    const savedTheme = localStorage.getItem('justin-blog-theme');
+    if (savedTheme === 'dark') root.dataset.theme = 'dark';
+    themeButton.addEventListener('click', () => {
+      root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('justin-blog-theme', root.dataset.theme);
+    });
+
+    const search = document.getElementById('search');
+    const posts = [...document.querySelectorAll('.post')];
+    const emptyState = document.getElementById('empty-state');
+    let activeCategory = '';
+    function filterPosts() {
+      const query = search.value.trim().toLocaleLowerCase();
+      let visible = 0;
+      posts.forEach(post => {
+        const matchesText = post.dataset.title.toLocaleLowerCase().includes(query);
+        const matchesCategory = !activeCategory || post.dataset.category === activeCategory;
+        post.classList.toggle('hidden', !(matchesText && matchesCategory));
+        if (matchesText && matchesCategory) visible++;
+      });
+      emptyState.style.display = visible ? 'none' : 'block';
+    }
+    search.addEventListener('input', filterPosts);
+    document.querySelectorAll('[data-filter]').forEach(link => {
+      link.addEventListener('click', () => {
+        activeCategory = link.dataset.filter;
+        search.value = '';
+        filterPosts();
+      });
+    });
+  </script>
+</body>
+</html>
